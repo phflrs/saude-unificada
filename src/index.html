@@ -3,28 +3,28 @@
     <head>
         <meta charset="utf-8">
         <script src="../node_modules/web3/dist/web3.min.js"></script>
-    </head>>
+        <script src="javascript/contract-ingration.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <button id="addDoc">Adiciona Médico</button>
+        <button id="addMR">Adiciona Prontuário</button>
+        <button id="getMR">Retorna Prontuário</button>
+        <button id="getAuth">Retorna autorizados por médico</button>
+        <script>
+            $("#addDoc").click(function(){
+                addDoctorOnList()
+            });
+            $("#addMR").click(function(){
+                addMedicalRecord()
+            });
+            $("#getMR").click(function(){
+                getMedicalRecord()
+            });
+            $("#getAuth").click(function(){
+                getAllAuthorizedPacientsByDoctor()
+            });
+            
+        </script>
+    </body>
 </html>
-<body>
-
-    <script>
-        const web3 = new Web3("HTTP://127.0.0.1:7545");
-        let contractInstanceAddress = '0x79A75680d859BdD1EEF9226ea112d23d3B556f26';
-        let abi = [ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [ { "internalType": "address", "name": "_patientWallet", "type": "address" }, { "internalType": "address", "name": "_doctorWallet", "type": "address" } ], "name": "addDoctorOnList", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "_patientWallet", "type": "address" }, { "internalType": "address", "name": "_doctorWallet", "type": "address" }, { "internalType": "uint256", "name": "_hospitalId", "type": "uint256" } ], "name": "getMedicalRecord", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [ { "internalType": "address", "name": "_patientWallet", "type": "address" }, { "internalType": "address", "name": "_doctorWallet", "type": "address" }, { "internalType": "uint256", "name": "_hospitalId", "type": "uint256" }, { "internalType": "string", "name": "_medicalRecordlink", "type": "string" } ], "name": "addLinkInTheMedicalRecord", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
-        let contract = new web3.eth.Contract(abi, contractInstanceAddress);
-        let pacientWallet = "0x8616d69252A16addbd464866277177002fFC3E62";
-        let doc1Wallet = "0xec91C5876C47CedF8b50bf531340f05b0b49D1D1";
-        let doc2Wallet = "0x9d83E9DfB8c5a36919D23A58f5553d383997D1CE";
-
-        async function contractIntegration() {
-            let response1 = await contract.methods.addDoctorOnList(pacientWallet, doc1Wallet).send({from: pacientWallet});
-            console.log("add doc", response1);
-            let response2 = await contract.methods.addLinkInTheMedicalRecord(pacientWallet, doc1Wallet, 1, "https://viacep.com.br/ws/01001000/json/").send({from: pacientWallet});
-            console.log("add link", response2);
-            let response3 = await contract.methods.getMedicalRecord(pacientWallet, doc1Wallet, 1).call()
-            console.log("medical record link",response3);
-        }
-        contractIntegration();
-
-    </script>
-</body>
